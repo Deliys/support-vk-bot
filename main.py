@@ -120,18 +120,33 @@ def search(text):
 		if (i in data) == True:
 			for ii in data[i]:
 				if (ii in index_stat)==True:
-					index_stat[ii] = index_stat[ii] + data[i][ii]
+					index_stat[ii]['mass'] = index_stat[ii]['mass'] + data[i][ii]
+					index_stat[ii]['v_mass'] = index_stat[ii]['v_mass'] +1
 				else:
-					index_stat[ii] =  data[i][ii]
-
+					index_stat[ii] = {}
+					index_stat[ii]['mass'] =  data[i][ii]
+					index_stat[ii]['v_mass'] = 1
 	
 
+
+	#поиск файлов с большим вхождения всех слов и удаления малых------------------------
+
+	max_v_mass = 0
+	for  i in index_stat:
+		if max_v_mass<index_stat[ii]['v_mass']:
+			max_v_mass = index_stat[ii]['v_mass']
+	for  i in index_stat:
+		if max_v_mass < index_stat[i]['v_mass']:
+			del index_stat[i]
+
+
+	#-------------
 
 	if len(index_stat)>0:
 		b_max = [0]
 		for  i in index_stat:
-			if index_stat[i]>b_max[0]:
-				b_max = [index_stat[i] , i]
+			if index_stat[i]['mass']>b_max[0]:
+				b_max = [index_stat[i]['mass'] , i]
 
 		with open(b_max[1], 'r',encoding='utf-8') as fp:
 			text = fp.read()
