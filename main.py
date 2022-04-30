@@ -4,6 +4,20 @@ import json
 import vk_api
 import random
 import time
+import sqlite3
+
+
+#подключение bd----------------
+conn = sqlite3.connect('main.db')
+cur = conn.cursor()
+cur.execute("SELECT * FROM questions;")
+three_results = cur.fetchall()
+# print(three_results)
+# for i in three_results:
+# 	print(str(i)+"\n\n\n")
+#-----------------------------
+
+
 
 token = '9c6830732d60debcae9d51c24daf14223c9f0e6c3c7e5f4325e67d8bce487895eea822e5ee302f75ee480'
 vk = vk_api.VkApi(token=token)
@@ -19,6 +33,9 @@ morph = pymorphy2.MorphAnalyzer()
 filters = ["'",",",".",'[',']','{','}','(',")",
 '«','»',"-",";"
 ]
+
+#------------------
+#это слова вопросы , они бесполезны для поиска
 filters_key_word = [
 	"почему",'зачем'
 ]
@@ -79,14 +96,16 @@ def anti_simfol(text):
 
 	return text
 
+#счетчик
+bbb = -1
 
-for i in os.listdir("file/"): 
-	with open('file/'+i, "r",encoding='utf-8') as file:
+for i in three_results: 
+	bbb = bbb +1
 		#print(file.read().lower().split())
-		text = file.read().lower()
-		text = anti_simfol(text)
-		text = anti_form(text)
-		index_gen_list(text , "file/"+i)
+	text = i[1].lower()
+	text = anti_simfol(text)
+	text = anti_form(text)
+	index_gen_list(text , bbb)
 
 def anti_key_word(text):
 	# for uu in filters_key_word:
@@ -148,9 +167,8 @@ def search(text):
 			if index_stat[i]['mass']>b_max[0]:
 				b_max = [index_stat[i]['mass'] , i]
 
-		with open(b_max[1], 'r',encoding='utf-8') as fp:
-			text = fp.read()
-			return text
+		text = three_results[1]
+		return text
 	else:
 		return "нет ничего похожего на ответ"
 
