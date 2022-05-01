@@ -37,7 +37,7 @@ filters = ["'",",",".",'[',']','{','}','(',")",
 #------------------
 #это слова вопросы , они бесполезны для поиска
 filters_key_word = [
-	"почему",'зачем'
+	"почему",'зачем',"что"
 ]
 
 
@@ -154,6 +154,8 @@ def search(text):
 	for  i in index_stat:
 		if max_v_mass<index_stat[ii]['v_mass']:
 			max_v_mass = index_stat[ii]['v_mass']
+	
+
 	for  i in index_stat:
 		if max_v_mass < index_stat[i]['v_mass']:
 			del index_stat[i]
@@ -167,7 +169,7 @@ def search(text):
 			if index_stat[i]['mass']>b_max[0]:
 				b_max = [index_stat[i]['mass'] , i]
 
-		text = three_results[1]
+		text = three_results[int(b_max[1])]
 		return text
 	else:
 		return "нет ничего похожего на ответ"
