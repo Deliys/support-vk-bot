@@ -3,3 +3,4 @@
 index.json
 *.zip
 SQLiteStudio/
+config.py

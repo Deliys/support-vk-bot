@@ -193,4 +193,6 @@ if ("config.py" in os.listdir()) == True:
 
 else:
 	with open("config.py","w") as file:
-		file.write('config_vk = ""')
+		print("Сейчас будет создан файл config.py\n сейчас нужно ввести свой токен .\n Позже вы сможете изменить свой токен в этом файле")
+		a = input("Введите vk_bot токен")
+		file.write('config_vk = "'+str(a)+'"')
