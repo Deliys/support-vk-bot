@@ -19,7 +19,7 @@ three_results = cur.fetchall()
 
 
 
-token = '9c6830732d60debcae9d51c24daf14223c9f0e6c3c7e5f4325e67d8bce487895eea822e5ee302f75ee480'
+token = '2b9d90f9abd344ad5862b795b057cbad74d6652deee63ffb588852f5515f8e18e1aa4a756aeb3d858592e'
 vk = vk_api.VkApi(token=token)
 vk._auth_token()
 
@@ -75,9 +75,6 @@ def index_gen_list(text,file_name):
 	with open("index.json", "w",encoding='utf-8') as file:    
 	   json.dump(data, file, indent=4, ensure_ascii=False)
 	return data
-
-
-
 #фильтры 
 
 def anti_form(text):
@@ -183,9 +180,13 @@ while True:
 	try:
 		messages = vk.method("messages.getConversations", {"offset": 0, "count": 20, "filter": "unanswered"})
 		if messages["count"] >= 1:
-			id = messages["items"][0]["last_message"]["from_id"]
-			body = messages["items"][0]["last_message"]["text"]
-			vk.method("messages.send", {"peer_id": id, "message": search(body), "random_id": random.randint(1, 2147483647)})
+			try:
+				id = messages["items"][0]["last_message"]["from_id"]
+				body = messages["items"][0]["last_message"]["text"]
+				vk.method("messages.send", {"peer_id": id, "message": search(body), "random_id": random.randint(1, 2147483647)})
+			except Exception as e:
+				vk.method("messages.send", {"peer_id": id, "message":"что то пошло не так , попробуйте другой вариант запроса", "random_id": random.randint(1, 2147483647)})
+				print(e)
 	except Exception as E:
 		time.sleep(1)
 
