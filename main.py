@@ -105,11 +105,7 @@ if ("config.py" in os.listdir()) == True:
 		index_gen_list(text , bbb)
 
 	def anti_key_word(text):
-		# for uu in filters_key_word:
-		#   text = text.translate({ord(uu): None for i in uu})
-
 		text = text.split()
-
 		for word in text: 
 			if word in filters_key_word:
 				text.remove(word)
