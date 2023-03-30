@@ -3,3 +3,5 @@ index.json
 *.zip
 SQLiteStudio/
 config.py
+*.pyc
+*.db
